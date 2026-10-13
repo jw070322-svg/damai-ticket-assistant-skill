@@ -1,0 +1,34 @@
+# Local credentials, session state and personal purchase information
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+cookies*.json
+*storage-state*.json
+*storageState*.json
+.auth/
+playwright/.auth/
+browser-profile/
+user-data-dir/
+private/
+local/
+orders/
+receipts/
+screenshots/
+traces/
+*.har
+*.log
+
+# Local editor and runtime output
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+__pycache__/
+.venv/
+node_modules/
+test-results/
+playwright-report/
