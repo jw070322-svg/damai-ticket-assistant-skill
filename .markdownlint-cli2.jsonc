@@ -1,0 +1,12 @@
+{
+  // 中文文档以段落书写，不强制行宽；允许必要的行内 HTML（如 details 折叠）。
+  "config": {
+    "MD013": false,
+    "MD033": false,
+    "MD036": false,
+    "MD041": false,
+    "MD024": { "siblings_only": true }
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**"]
+}

@@ -1,0 +1,26 @@
+name: Lint
+
+# 每次 push 到 main 和所有 PR 都做静态检查，保证文档与 Skill 始终处于可发布状态。
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 结构、链接与表述校验
+        run: python -I scripts/validate_skill.py
+
+      - name: Markdown 风格检查
+        uses: DavidAnson/markdownlint-cli2-action@v17
+        with:
+          config: .markdownlint-cli2.jsonc
+          globs: "**/*.md"

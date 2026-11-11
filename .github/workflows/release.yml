@@ -1,0 +1,46 @@
+name: Release
+
+# 推送 v* 标签时自动校验、打包并创建 GitHub Release。
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    name: 发布前校验
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 结构、链接与版本一致性校验
+        run: python -I scripts/validate_skill.py --version "${GITHUB_REF_NAME#v}"
+
+  release:
+    name: 打包并发布
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 打包 Skill 文件夹（压缩包顶层即 damai-ticket-assistant/）
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          mkdir -p dist
+          cd skills
+          zip -r "../dist/damai-ticket-assistant-v${VERSION}.zip" damai-ticket-assistant
+
+      - name: 从 CHANGELOG 提取发布说明
+        run: python -I scripts/extract_release_notes.py "${GITHUB_REF_NAME}" > dist/release_notes.md
+
+      - name: 创建 GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: dist/release_notes.md
+          files: dist/damai-ticket-assistant-*.zip
+          fail_on_unmatched_files: true

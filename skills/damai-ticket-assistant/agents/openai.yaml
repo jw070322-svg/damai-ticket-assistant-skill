@@ -2,5 +2,6 @@ interface:
   display_name: "大麦购票助手"
   short_description: "协助准备、选票、授权下单及订单核对，验证与支付认证由用户接管"
   default_prompt: "请使用 $damai-ticket-assistant，按我指定的演出、场次、票数和预算协助购票，先核对现有订单与授权范围。"
+  version: "0.2.0"
 policy:
   allow_implicit_invocation: true
